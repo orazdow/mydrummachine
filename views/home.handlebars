@@ -1,0 +1,22 @@
+<header>
+<div>
+<img src="logo.png" >
+</div>
+{{#if loggedin}}
+<div class="signup"><p>{{uname.username}}</p> <a href="/logout">logout</a> </div>
+{{else}}
+<div class="signup">welcome guest  <a href="/login">log in</a> <a href="/register">Sign Up</a> </div>
+{{/if}}
+</header>
+<div id="container">
+
+<div>
+</div>
+<script src="p5.min.js"></script>	
+<script src="p5.dom.min.js"></script>	
+<script src="p5.sound.min.js"></script>	
+<script src="sketch.js"></script>
+<script>var inuser = {{{indata}}};
+</script>
+
+</div>
