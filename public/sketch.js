@@ -14,8 +14,8 @@ var oncolor = '#ff422d';
 var go = false;
 var patlen = 16;
 var soundset = 'tr808';
-var tempo, bpm, timer;
-var inc = 0;
+var bpm = 90;
+var tempo, timer, inc = 0;
 var tr808 = {}; var tr606 = {}; var mt32 = {};
 var drums = { 'tr808': tr808, 'tr606': tr606 , 'mt32': mt32};
 
@@ -50,10 +50,7 @@ function preload(){
 }
 
 function setup() {
-
  noLoop();  
- bpm = 90.0;  
- tempo = (60000.0/bpm)/4.0;
 
  tr808.a.setVolume(1.0);
  tr808.b.setVolume(1.0);
@@ -131,7 +128,6 @@ function setup() {
    });
    play.style('display', 'inline-block');
    document.querySelector('label').style.paddingLeft = "10px";
-
    document.addEventListener('keydown', (event) => { 
      if(event.key === ' '){
         go = !go;
@@ -215,8 +211,8 @@ if(inuser){
   getPat(inuser.pat);
 }
 // getPat(testpat);
+tempo = (60000.0/bpm)/4.0;
 timer.start(timerFunc, tempo);
-
 }
 
 
@@ -255,14 +251,14 @@ function setPat(pat){
   pat.bpm = bpm;
   pat.set = soundset;
   for (var i = 0; i < patlen; i++) {
-     pat.a.push(toInt(checksa[i].val));
-     pat.b.push(toInt(checksb[i].val));
-     pat.c.push(toInt(checksc[i].val));
-     pat.d.push(toInt(checksd[i].val));
-     pat.e.push(toInt(checkse[i].val));
-     pat.f.push(toInt(checksf[i].val));
-     pat.g.push(toInt(checksg[i].val));
-     pat.h.push(toInt(checksh[i].val));
+     pat.a.push(checksa[i].val);
+     pat.b.push(checksb[i].val);
+     pat.c.push(checksc[i].val);
+     pat.d.push(checksd[i].val);
+     pat.e.push(checkse[i].val);
+     pat.f.push(checksf[i].val);
+     pat.g.push(checksg[i].val);
+     pat.h.push(checksh[i].val);
   }
 }
 
@@ -288,7 +284,6 @@ for (var i = 0; i < pat.len; i++) {
    changeColor(checksg[i], i);
    checksh[i].val = pat.h[i];
    changeColor(checksh[i], i);
-
 }
 
 setsel.value(soundset); 
@@ -317,14 +312,6 @@ for (var i = 0; i < pat.len; i++) {
    checksh[i].val = 0;
    changeColor(checksh[i], i);
 }  
-}
-
-function toInt(arg){
-  if(arg){
-    return 1;
-  }else{
-    return 0;
-  }
 }
 
 function timerFunc(){
@@ -373,28 +360,26 @@ function changeColor(box, i){
 }
 
 function createBoxes(arr, num, parentel, size){
-
-for (var i = 0; i < num; i++) {
-  arr[i] = createDiv('');
-  arr[i].style('display', 'inline-block');
-    arr[i].style('margin', '2px');
-    arr[i].style('padding', size+'px');
-    arr[i].style('border', '1px solid black');
-    arr[i].style('background-color',  getoffcolor(i));
-    arr[i].val = false; 
-    arr[i].num = i;
-  arr[i].mouseClicked(function(){
-  this.val = !this.val;
-  if(this.val){ 
-  this.style('background-color', oncolor)
-  }else{ 
-  this.style('background-color', getoffcolor(this.num))}  
-  });
-  if(parentel){
-  arr[i].parent(parentel);
+  for (var i = 0; i < num; i++) {
+    arr[i] = createDiv('');
+    arr[i].style('display', 'inline-block');
+      arr[i].style('margin', '2px');
+      arr[i].style('padding', size+'px');
+      arr[i].style('border', '1px solid black');
+      arr[i].style('background-color',  getoffcolor(i));
+      arr[i].val = 0; 
+      arr[i].num = i;
+    arr[i].mouseClicked(function(){
+    this.val = Math.abs(this.val-1);
+    if(this.val){ 
+    this.style('background-color', oncolor)
+    }else{ 
+    this.style('background-color', getoffcolor(this.num))}  
+    });
+    if(parentel){
+    arr[i].parent(parentel);
+    }
   }
-}
-
 }
 
 var timer = {
